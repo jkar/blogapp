@@ -1,0 +1,22 @@
+{
+  "name": "back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jkar/blogapp.git"
+  },
+  "author": "yiannis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jkar/blogapp/issues"
+  },
+  "homepage": "https://github.com/jkar/blogapp#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
