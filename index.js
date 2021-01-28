@@ -5,7 +5,8 @@ const app = express();
 // const mysql = require('mysql');
 // const mysql2 = require('mysql2');
 const db = require('./connection');
-const userRoute = require('./Routes/userRoute');
+const userRouter = require('./Routes/userRoute');
+const blogRouter = require('./Routes/blogRoute');
 const port = 3001;
 
 
@@ -25,7 +26,10 @@ app.get('/', (req, res) => {
   res.send('Hello World!!')
 })
 
-app.use('/user', userRoute);
+app.use(cors());
+app.use(bodyParser.json());
+app.use('/user', userRouter);
+app.use('/blog', blogRouter);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
