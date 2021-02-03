@@ -16,6 +16,20 @@ router.get('/', async (req, res) => {
     }
 });
 
+//get categories related with a blog (id)
+router.get('/categories', async (req, res) => {
+    try {
+        const data = await Category.findAll({
+            where : {
+                bid: req.query.id
+            }
+        });
+        res.status(200).send(data);
+    } catch (error) {
+        res.status(400).send(error);
+    }
+}),
+
 // CREATE a post in 'post' table and insert also in 'catpost' table, the appropriate cids and pid related to that post.
 //(in a form for creating post, when user set category/ies ,an array with their ids will be added in 'cid' field)
 
@@ -97,6 +111,24 @@ router.post('/updatecategory', async (req, res) => {
             }
           });
           res.status(200).send(data);
+    } catch (error) {
+        res.status(400).send(error);
+    }
+});
+
+// create category in 'category' table, and passing bid, the id for the specific blog
+//DUMMY BODY
+// {
+//     "bid": 1,
+//     "name": "gossip"
+// }
+router.post('/createcategory', async (req, res) => {
+    try {
+        const data = await Category.create({
+            bid : req.body.id,
+            name: req.body.name
+        });
+        res.status(200).send(data);
     } catch (error) {
         res.status(400).send(error);
     }
