@@ -43,12 +43,6 @@ blogRouter.get('/blogs', async (req,res) => {
 //ten posts with descending order by specific blog id
 blogRouter.get('/posts', async (req, res) => {
     try {
-        // const data = await Post.findAll({
-        //     limit: 10,
-        //     order: [
-        //         ['createdAt', 'DESC'],
-        //     ]
-        // });
         const data = await db.query('select distinct post.id, post.title, post.content, post.createdAt from post, catpost, category, blog where post.id = catpost.pid and catpost.cid = category.id and category.bid = blog.id and blog.id=? ORDER BY post.createdAt DESC limit 10',
         {
           replacements: [req.query.id],
@@ -99,7 +93,6 @@ blogRouter.get('/specificposts', async (req, res) => {
             include : [
                 { model : Post, attributes : ['id', 'title', 'content', 'createdAt'] },
                 {model: Category, attributes: ['id','name']}
-                // { model : Post, include : [{model: Category, attributes: ['id','name']}] }
             ]
         });
         res.status(200).send(data);
@@ -121,30 +114,10 @@ blogRouter.get('/all', async (req, res) => {
               id: id
             },
             include: [
-                // {model:Category, attributes:['id', 'name']},
-                // {model:Category, include: [{ model: CatPost, attributes: ['cid', 'pid'] } ]},
                 {model:Category, include: [{ model: CatPost, include: [{model: Post, attributes: ['id','title', 'content', 'createdAt']}] } ]},
-                // {model:Category, include: [{ model: CatPost, include: [{model: Post, attributes: ['id','title', 'content', 'createdAt'], seperate: true, limit:1 }] } ]},
-                
+  
             ]
           });
-
-
-        //   console.log(data[0].categories);
-        // const cat = [];
-        //   data[0].categories.forEach(element => {
-        //       cat.push(element.dataValues)
-        //   });
-        //   console.log(cat)
-        //   const data2 = await Category.findAll({
-        //       where: {
-        //         [Op.or]: cat
-        //       },
-        //       include: [
-        //           {model:CatPost, attributes:['cid', 'pid']}
-        //       ]
-        //   });
-        //   console.log(data2);
         res.status(200).send(data);
     } catch (error) {
         console.log(error)

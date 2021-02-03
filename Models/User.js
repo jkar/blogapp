@@ -2,10 +2,6 @@ const { Sequelize, DataTypes } = require('sequelize');
 const db = require('../connection');
 
 const User = db.define('user', {
-    // userid: {
-    //     type: DataTypes.INTEGER,
-    //     // allowNull: false
-    //   },
     bid: {
         type: DataTypes.INTEGER,
       },
@@ -20,7 +16,6 @@ const User = db.define('user', {
       },
     password: {
         type: DataTypes.STRING,
-        // allowNull: false
       }
 }, {
     freezeTableName: true

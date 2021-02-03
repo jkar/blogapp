@@ -45,12 +45,6 @@ router.post('/createpost', async (req, res) => {
         const data = await Post.create({
             title: req.body.title,
             content: req.body.content,
-            // catposts: [
-            //   { cid: req.body.cid, pid: ''},
-            //   { cid: req.body.cid, pid: ''}
-            // ]
-        //   }, {
-        //     include: [ CatPost ]
           });
         const cids = req.body.cid;
         const cidlist = cids.map(el =>{
