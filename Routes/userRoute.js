@@ -7,6 +7,7 @@ const CatPost = require('../Models/Cat-Post');
 const User = require('../Models/User');
 const db = require('../connection');
 
+//get all users
 router.get('/', async (req, res) => {
     try {
         const data = await User.findAll();

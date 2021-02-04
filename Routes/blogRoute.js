@@ -56,10 +56,6 @@ blogRouter.get('/posts', async (req, res) => {
 });
 
 //getting all categories related to a specific post (id)
-//DUMMY BODY
-// {
-//     "id" : 4
-// }
 blogRouter.get('/categories', async (req, res) => {
 
     try {
@@ -80,10 +76,6 @@ blogRouter.get('/categories', async (req, res) => {
 });
 
 //get all posts from a specific category (id)
-//DUMMY BODY
-// {
-//     "id" : 1
-// }
 blogRouter.get('/specificposts', async (req, res) => {
     try {
         const data = await CatPost.findAll({
@@ -102,10 +94,6 @@ blogRouter.get('/specificposts', async (req, res) => {
 });
 
 //get blog with each categories and each posts , using blog (id)
-//DUMMY BODY
-// {
-//     "id" : 2 
-// }
 blogRouter.get('/all', async (req, res) => {
     try {
         const id = req.body.id;

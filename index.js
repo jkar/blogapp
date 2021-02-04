@@ -18,12 +18,6 @@ const port = 3001;
   });
 
 
-
-
-// app.get('/', (req, res) => {
-//   res.send('Hello World!!')
-// })
-
 app.use(cors());
 app.use(bodyParser.json());
 app.use('/user', userRouter);
