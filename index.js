@@ -1,11 +1,12 @@
 const express = require('express');
+require('dotenv').config();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
 const db = require('./connection');
 const userRouter = require('./Routes/userRoute');
 const blogRouter = require('./Routes/blogRoute');
-const port = 3001;
+const port = process.env.PORT;
 
 
   // db test
@@ -27,5 +28,5 @@ app.use((req, res) => {
   });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`blogapp app listening at ....`)
 })
