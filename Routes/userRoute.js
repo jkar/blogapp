@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const jwt = require('jsonwebtoken');
 const { Op } = require("sequelize");
 const Blog = require('../Models/Blog');
 const Category = require('../Models/Category');
@@ -14,6 +15,39 @@ router.get('/', async (req, res) => {
         res.send(data);
     } catch (err) {
         res.send(err);
+    }
+});
+
+
+//log in by providing email and password
+router.post('/login', async (req, res) => {
+    try {
+        const data = await User.findAll({ 
+            where : {
+                [Op.and]: [
+                    { email: req.body.email },
+                    { password: req.body.password }
+                  ]
+            }
+         });
+         if (data.length === 0) {
+            return res.status(401).json({
+            error: 'invalid email or password'
+            });
+          } else {
+            const userForToken = {
+                id: data[0].id,
+                name: data[0].name,
+                bid: data[0].bid,
+                email: data[0].email,
+              }
+              const token = jwt.sign(userForToken, 'login');
+              res.status(200).send({token, userForToken });
+          }
+
+
+    } catch (error) {
+        res.status(400).send(error);
     }
 });
 
