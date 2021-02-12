@@ -77,16 +77,39 @@ router.get('/categories', async (req, res) => {
 
 router.post('/createpost', async (req, res) => {
     try {
-        const data = await Post.create({
-            title: req.body.title,
-            content: req.body.content,
-          });
-        const cids = req.body.cid;
-        const cidlist = cids.map(el =>{
-            return {'cid': el, 'pid': data.id }
-        });
-        const data2 = await CatPost.bulkCreate(cidlist);
-          res.status(200).send(data);
+        let token = req.headers['authorization'];
+        if (!token) {
+            return res.status(400).json({msg : "No Token"});
+        } else {
+            token = token.substring(7);
+            jwt.verify(token, 'login', async (err, authData) => {
+    
+                try {
+    
+                    if (err) {
+                        return res.status(401).send({ msg : "Invalid Token" });
+                    } else {
+                            try {
+                                const data = await Post.create({
+                                    title: req.body.title,
+                                    content: req.body.content,
+                                  });
+                                const cids = req.body.cid;
+                                const cidlist = cids.map(el =>{
+                                    return {'cid': el, 'pid': data.id }
+                                });
+                                const data2 = await CatPost.bulkCreate(cidlist);
+                                  res.status(200).send(data);
+                            } catch (error) {
+                                res.status(400).send(error);
+                            }
+
+                    }
+                } catch (err) {
+                    return res.status(400).json({msg : err.message});
+                }
+            });
+        }  
     } catch (error) {
         res.status(400).send(error);
     }
@@ -163,7 +186,6 @@ router.post('/createcategory', async (req, res) => {
                 try {
     
                     if (err) {
-                        console.log('invalid token');
                         return res.status(401).send({ msg : "INVALID TOKEN" });
                     } else {
         
