@@ -153,11 +153,31 @@ router.post('/updatecategory', async (req, res) => {
 // }
 router.post('/createcategory', async (req, res) => {
     try {
-        const data = await Category.create({
-            bid : req.body.id,
-            name: req.body.name
-        });
-        res.status(200).send(data);
+        let token = req.headers['authorization'];
+        if (!token) {
+            return res.status(400).json({msg : "no token"});
+        } else {
+            token = token.substring(7);
+            jwt.verify(token, 'login', async (err, authData) => {
+    
+                try {
+    
+                    if (err) {
+                        console.log('invalid token');
+                        return res.status(401).send({ msg : "INVALID TOKEN" });
+                    } else {
+        
+                        const data = await Category.create({
+                            bid : req.body.id,
+                            name: req.body.name
+                        });
+                        res.status(200).send(data);
+                    }
+                } catch (err) {
+                    return res.status(400).json({msg : err.message});
+                }
+            });
+        }  
     } catch (error) {
         res.status(400).send(error);
     }
