@@ -28,5 +28,5 @@ app.use((req, res) => {
   });
 
 app.listen(port, () => {
-  console.log(`blogapp app listening at ....`)
+  console.log(`blogapp app listening at port....`)
 })
